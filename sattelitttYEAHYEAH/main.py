@@ -1,4 +1,5 @@
 from pylab import *
+import os
 
 # values
 Mass = 5.972e24  # kg
@@ -29,7 +30,7 @@ GM = Gravity * Mass
 theta = linspace(0, 2 * pi, 100)
 x = 6.371e6 * cos(theta)
 y = 6.371e6 * sin(theta)
-plot(x, y, 'g-')
+fill(x, y, color='g')
 # Loop calculation
 for i in range(n - 1):
     rr = norm(r[i, :])
@@ -38,17 +39,20 @@ for i in range(n - 1):
     r[i + 1] = r[i] + dt * v[i + 1]
     t[i + 1] = t[i] + dt
     if rr <= 6.371e6:
-        print("Crashed!!")
+
+        print("\nCrashed!!")
         break
 
-    sys.stdout.write(f"\rTime: {t[i + 1] / 60} minutes")
-    sys.stdout.write(f"Distance from surface: {rr - 6.371e6} meters")
-    sys.stdout.write(f"Velocity: {norm(v[i + 1])} m/s")
-    sys.stdout.flush()
+    if i % 10000 == 0:
+        os.system("cls" if os.name == "nt" else "clear")
+        sys.stdout.write(f"Time: {t[i + 1] / 60} minutes")
+        sys.stdout.write(f"\nDistance from surface: {rr - 6.371e6} meters")
+        sys.stdout.write(f"\nVelocity: {norm(v[i + 1])} m/s")
+        sys.stdout.flush()
 
 # Plot the results
 plot(r[:, 0], r[:, 1])
 xlabel('x [m]')
 ylabel('y [m]')
-title('Orbit of a planet around a star')
+title('Orbit of a satellite around earth')
 show()
