@@ -31,6 +31,7 @@ theta = linspace(0, 2 * pi, 100)
 x = 6.371e6 * cos(theta)
 y = 6.371e6 * sin(theta)
 fill(x, y, color='g')
+
 # Loop calculation
 for i in range(n - 1):
     rr = norm(r[i, :])
@@ -39,7 +40,6 @@ for i in range(n - 1):
     r[i + 1] = r[i] + dt * v[i + 1]
     t[i + 1] = t[i] + dt
     if rr <= 6.371e6:
-
         print("\nCrashed!!")
         break
 
